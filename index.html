@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spot Vision — Decide early, spend energy only when it matters</title>
+<meta name="description" content="Spot Vision is a licensable early-decision fabric for sensor systems — a multiplier-free, flash-resident inference core that decides at the sensor so the rest of the system stays asleep. Silicon-proven on commercial FPGA.">
+<meta property="og:title" content="Spot Vision — Decide early, spend energy only when it matters">
+<meta property="og:description" content="A licensable early-decision fabric for always-on sensors: multiplier-free, flash-resident, silicon-proven. Decide at the source; wake the rest of the system only when it matters.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --ground:#0B0E12; --panel:#12171E; --panel-2:#161C24;
+    --ink:#E8EDF2; --ink-dim:#B7C1CD; --muted:#7E8B9A; --faint:#4A5563;
+    --line:#232B35; --line-2:#2E3846;
+    --amber:#F5A524; --amber-soft:#F5A52422; --amber-ink:#F7B84E;
+    --teal:#34D3C0; --teal-ink:#57DECD; --teal-soft:#34D3C01c;
+    --danger:#E06A5B;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --maxw:1120px;
+  }
+  :root[data-theme="light"]{
+    --ground:#EEF1F3; --panel:#FBFCFD; --panel-2:#F4F6F8;
+    --ink:#0C1116; --ink-dim:#33404D; --muted:#5C6975; --faint:#93A0AD;
+    --line:#DCE2E8; --line-2:#CBD4DC;
+    --amber:#B7770A; --amber-soft:#B7770a18; --amber-ink:#9A6300;
+    --teal:#0E9E8E; --teal-ink:#0B8676; --teal-soft:#0e9e8e14; --danger:#C24A3A;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.55;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+  a{color:inherit}
+  .wrap{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 clamp(22px,6vw,40px)}
+
+  /* header */
+  header.site{position:sticky; top:0; z-index:50; backdrop-filter:blur(10px);
+    background:color-mix(in srgb, var(--ground) 82%, transparent);
+    border-bottom:1px solid var(--line)}
+  .nav{display:flex; align-items:center; justify-content:space-between; height:62px}
+  .brand{display:flex; align-items:center; gap:11px; font-family:var(--mono);
+    letter-spacing:.24em; text-transform:uppercase; font-size:13px; color:var(--muted)}
+  .brand b{color:var(--ink); font-weight:600}
+  .brand .led{width:9px; height:9px; border-radius:50%; background:var(--amber);
+    box-shadow:0 0 0 0 var(--amber); animation:pulse 2.6s ease-out infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--amber) 55%,transparent)}
+    70%{box-shadow:0 0 0 9px transparent} 100%{box-shadow:0 0 0 0 transparent}}
+  .navlinks{display:flex; gap:28px; align-items:center; font-family:var(--mono);
+    font-size:12.5px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase}
+  .navlinks a{text-decoration:none; transition:color .2s}
+  .navlinks a:hover{color:var(--ink)}
+  .navlinks a.cta{border:1px solid var(--amber); color:var(--amber-ink);
+    padding:8px 15px; border-radius:100px; letter-spacing:.1em}
+  .navlinks a.cta:hover{background:var(--amber-soft)}
+  @media (max-width:760px){ .navlinks a:not(.cta){display:none} }
+
+  section{padding:clamp(64px,10vw,120px) 0; border-bottom:1px solid var(--line)}
+  section.hero{padding-top:clamp(52px,8vw,92px)}
+  .eyebrow{font-family:var(--mono); font-size:12.5px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--amber); display:flex; align-items:center; gap:12px; margin-bottom:22px;}
+  .eyebrow .bar{height:1px; width:44px; background:linear-gradient(90deg,var(--amber),transparent)}
+  h1{font-size:clamp(36px,6.6vw,74px); line-height:1.03; letter-spacing:-.02em;
+    font-weight:820; margin:0 0 22px; text-wrap:balance; max-width:17ch;}
+  h2{font-size:clamp(27px,4.4vw,48px); line-height:1.07; letter-spacing:-.015em;
+    font-weight:800; margin:0 0 18px; text-wrap:balance; max-width:20ch;}
+  .lede{font-size:clamp(17px,2.1vw,22px); color:var(--ink-dim); max-width:66ch; line-height:1.5}
+  p{max-width:64ch}
+  .accent{color:var(--amber-ink)} .sig{color:var(--teal-ink)}
+  strong{color:var(--ink); font-weight:650}
+  em{font-style:italic}
+
+  .pilot{display:inline-flex; align-items:center; gap:10px; font-family:var(--mono);
+    font-size:12.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted);
+    border:1px solid var(--line-2); border-radius:100px; padding:7px 14px 7px 12px;}
+  .pilot .led{width:9px; height:9px; border-radius:50%; background:var(--amber);
+    box-shadow:0 0 0 0 var(--amber); animation:pulse 2.4s ease-out infinite}
+  .hero h1{max-width:16ch; margin-top:26px}
+  .catline{font-family:var(--mono); font-size:clamp(13px,1.5vw,15px); letter-spacing:.06em;
+    color:var(--teal-ink); margin:0 0 20px; text-transform:none;}
+  .hero-foot{margin-top:40px; display:flex; flex-wrap:wrap; gap:14px; align-items:center}
+  .fact{display:inline-flex; align-items:center; gap:9px; font-family:var(--mono);
+    font-size:12.5px; letter-spacing:.06em; color:var(--ink-dim);
+    border:1px solid var(--line-2); border-radius:100px; padding:8px 15px}
+  .fact::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--teal)}
+  .btnrow{margin-top:38px; display:flex; flex-wrap:wrap; gap:14px; align-items:center}
+  .btn{display:inline-flex; align-items:center; gap:9px; font-family:var(--mono); font-size:13px;
+    letter-spacing:.08em; text-transform:uppercase; text-decoration:none; padding:13px 22px;
+    border-radius:100px; transition:all .2s}
+  .btn.primary{background:var(--amber); color:#12100a; font-weight:600}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn.ghost{border:1px solid var(--line-2); color:var(--ink-dim)}
+  .btn.ghost:hover{border-color:var(--muted); color:var(--ink)}
+
+  .grid{display:grid; gap:16px}
+  .cols-3{grid-template-columns:repeat(3,1fr)} .cols-2{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--panel); border:1px solid var(--line); padding:22px 22px 24px;
+    display:flex; flex-direction:column; gap:9px;}
+  .card .k{font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-ink)}
+  .card h3{margin:2px 0 2px; font-size:19px; font-weight:700; letter-spacing:-.01em}
+  .card p{font-size:14.5px; color:var(--muted); margin:0; max-width:44ch}
+  .card.spot{border-color:var(--amber); background:linear-gradient(180deg,var(--amber-soft),transparent 60%)}
+  .card.spot .k{color:var(--amber-ink)}
+
+  .split{display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(28px,5vw,68px); align-items:center}
+  .stack{display:flex; flex-direction:column; gap:12px}
+  .line-item{display:flex; gap:14px; align-items:flex-start; padding:14px 0; border-top:1px solid var(--line)}
+  .line-item:first-child{border-top:none}
+  .line-item .mono{font-family:var(--mono); color:var(--amber-ink); font-size:14px; min-width:64px}
+  .line-item .txt{font-size:15.5px; color:var(--ink-dim)}
+  .line-item .txt b{color:var(--ink)}
+
+  /* energy chain diagram */
+  .diagwrap{overflow-x:auto; margin-top:26px; -webkit-overflow-scrolling:touch}
+  .d2{width:100%; min-width:700px; height:auto; display:block}
+  .d2 text{font-family:var(--sans)}
+  .d2 .mono{font-family:var(--mono)}
+  .d2 .lbl{font-size:12px; letter-spacing:.16em; fill:var(--muted); font-family:var(--mono)}
+  .d2 .title{font-size:15.5px; font-weight:700; fill:var(--ink)}
+  .d2 .sub{font-size:13px; fill:var(--ink-dim)}
+  .d2 .brand{font-size:13px; fill:var(--amber-ink); font-weight:600}
+  .d2 .ann{font-size:11.5px; fill:var(--faint); font-family:var(--mono); letter-spacing:.03em}
+  .d2 .dollars{font-size:17px; font-weight:700; font-family:var(--mono)}
+  .d2 .amt{font-size:11.5px; fill:var(--muted); font-family:var(--mono)}
+  .d2 .lo{fill:var(--teal-ink)} .d2 .mid{fill:var(--amber-ink)} .d2 .hi{fill:var(--danger)}
+  .flowcap{font-family:var(--mono); font-size:11.5px; color:var(--faint); margin-top:14px; letter-spacing:.02em; max-width:82ch}
+  .flowcap b{color:var(--amber-ink); font-weight:500}
+  .erefbox{margin-top:22px; border:1px solid var(--amber); background:var(--amber-soft); padding:17px 22px; display:flex; gap:20px; align-items:baseline; flex-wrap:wrap}
+  .erefbox.teal{border-color:var(--teal); background:var(--teal-soft)}
+  .erefbox .big{font-family:var(--mono); font-size:clamp(21px,2.8vw,28px); font-weight:600; color:var(--amber-ink); letter-spacing:-.01em; white-space:nowrap}
+  .erefbox.teal .big{color:var(--teal-ink)}
+  .erefbox .txt{color:var(--ink-dim); font-size:14px; max-width:68ch; line-height:1.55}
+
+  .flow{display:flex; align-items:stretch; gap:12px; flex-wrap:wrap; margin-top:8px}
+  .fstep{flex:1 1 0; min-width:150px; background:var(--panel); border:1px solid var(--line); padding:16px 18px;
+    display:flex; flex-direction:column; gap:5px}
+  .fstep .fk{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  .fstep .fv{font-size:15.5px; font-weight:640; letter-spacing:-.01em}
+  .fstep.spot{border-color:var(--amber); background:linear-gradient(180deg,var(--amber-soft),transparent)}
+  .fstep.spot .fk{color:var(--amber-ink)} .fstep.spot .fv{color:var(--amber-ink)}
+  .fstep .fsub{font-size:12.5px; color:var(--muted); line-height:1.4}
+
+  /* results */
+  .results{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:6px}
+  .rhead, .rrow{display:grid; grid-template-columns:1.5fr 1fr 1fr .9fr; gap:14px; align-items:center; background:var(--panel); padding:14px 20px}
+  .rhead{background:var(--panel-2)}
+  .rhead span{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  .rrow .dec{font-weight:640; font-size:15px; letter-spacing:-.01em}
+  .rrow .dec small{display:block; font-weight:400; color:var(--muted); font-size:12px; font-family:var(--mono); letter-spacing:.02em; margin-top:2px}
+  .rrow .met{font-family:var(--mono); font-size:14.5px; color:var(--ink-dim); font-variant-numeric:tabular-nums}
+  .rrow .met.tbd{color:var(--faint)}
+  .pill{font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; padding:4px 9px; border:1px solid var(--line-2); border-radius:100px; color:var(--muted); justify-self:start}
+  .pill.ok{color:var(--teal-ink); border-color:color-mix(in srgb,var(--teal) 45%, var(--line-2))}
+  .pill.wip{color:var(--amber-ink); border-color:color-mix(in srgb,var(--amber) 45%, var(--line-2))}
+  .metrics{font-family:var(--mono); font-size:11.5px; color:var(--faint); margin-top:14px; letter-spacing:.02em; line-height:1.7; max-width:86ch}
+  .metrics b{color:var(--muted); font-weight:500}
+
+  /* contact */
+  .contact{text-align:center}
+  .contact h2{margin:0 auto 18px; max-width:24ch}
+  .contact .lede{margin:0 auto 30px}
+  .chips{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:34px;
+    font-family:var(--mono); font-size:12px; color:var(--muted)}
+  .chip{border:1px solid var(--line-2); padding:9px 16px; color:var(--ink-dim); letter-spacing:.06em; border-radius:100px}
+  .chip.amber{border-color:var(--amber); color:var(--amber-ink)}
+
+  footer.site{padding:34px 0 46px}
+  .foot{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--faint); text-transform:uppercase}
+  .foot a{color:var(--muted); text-decoration:none}
+  .foot a:hover{color:var(--ink)}
+
+  @media (max-width:900px){
+    .cols-3{grid-template-columns:1fr} .cols-2{grid-template-columns:1fr}
+    .split{grid-template-columns:1fr; gap:32px}
+    .flow{flex-direction:column}
+    .rhead, .rrow{grid-template-columns:1.4fr 1fr .9fr}
+    .rhead span:nth-child(3), .rrow > :nth-child(3){display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none !important; scroll-behavior:auto !important} html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <span class="brand"><span class="led"></span>SPOT&nbsp;<b>VISION</b></span>
+    <nav class="navlinks" aria-label="primary">
+      <a href="#idea">The idea</a>
+      <a href="#fabric">The fabric</a>
+      <a href="#decides">What it decides</a>
+      <a href="#proof">Proof</a>
+      <a href="#contact" class="cta">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <span class="pilot"><span class="led"></span>Early-decision fabric &middot; any sensor</span>
+      <h1>Sensors of the future won't be more connected. They'll be more <span class="accent">decisive</span>.</h1>
+      <p class="lede">For twenty years the answer to a smarter world was <em>connect it</em> &mdash; more bandwidth, more uplink, more streamed to the cloud to be understood somewhere else. The future doesn't need sensors that report harder. It needs sensors that <span class="sig">decide at the source</span> &mdash; spending energy only on what's worth waking the rest of the system for.</p>
+      <div class="hero-foot">
+        <span class="fact">Silicon-proven</span>
+        <span class="fact">Multiplier-free &middot; zero DSP</span>
+        <span class="fact">Flash-resident models</span>
+        <span class="fact">Any sensor &middot; always-on budgets</span>
+      </div>
+      <div class="btnrow">
+        <a class="btn primary" href="#contact">Request a briefing</a>
+        <a class="btn ghost" href="#idea">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE IDEA -->
+  <section id="idea">
+    <div class="wrap">
+      <div class="eyebrow"><span class="bar"></span>The idea</div>
+      <h2>The energy isn't in the decision. It's in everything after it.</h2>
+      <p class="lede">Every sensor event that gets forwarded pays for a whole chain of downstream work &mdash; on-device processing, compression, a radio uplink, the cloud. Reject it early, near the sensor, and almost none of that energy is ever spent.</p>
+      <div class="diagwrap">
+      <svg class="d2" viewBox="0 0 1000 460" role="img" aria-label="A sensor sits inside the device and makes the early decision; most events are rejected there, so the on-device processing and the cloud never wake. Cost escalates from a single dollar on the sensor to three dollars plus recurring cost in the cloud.">
+        <defs>
+          <marker id="ahF" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--faint)"/></marker>
+          <marker id="ahT" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--teal)"/></marker>
+        </defs>
+        <rect x="30" y="95" width="560" height="300" rx="18" fill="var(--panel-2)" stroke="var(--line-2)"/>
+        <text class="lbl" x="50" y="126">DEVICE — the chip you ship</text>
+        <rect x="60" y="150" width="215" height="180" rx="12" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="1.6"/>
+        <circle cx="82" cy="181" r="10" fill="none" stroke="var(--amber)" stroke-width="1.6"/>
+        <circle cx="82" cy="181" r="3.6" fill="var(--amber)"/>
+        <text class="lbl" x="102" y="186" fill="var(--amber-ink)">ON SENSOR</text>
+        <text class="title" x="76" y="228">Early decision</text>
+        <text class="brand" x="76" y="250">Spot Vision fabric</text>
+        <text class="mono" x="76" y="300"><tspan class="dollars lo">$</tspan><tspan class="amt" dx="9">~µJ / event · always on</tspan></text>
+        <rect x="330" y="150" width="230" height="180" rx="12" fill="var(--panel)" stroke="var(--line-2)" stroke-dasharray="5 4"/>
+        <text class="lbl" x="350" y="186">ON DEVICE</text>
+        <text class="sub" x="350" y="224">ISP · DSP · compression</text>
+        <text class="sub" x="350" y="246">host processor</text>
+        <text class="mono" x="350" y="300"><tspan class="dollars mid">$$</tspan><tspan class="amt" dx="9">~mJ / event</tspan></text>
+        <text class="ann" x="278" y="238">only if it</text>
+        <text class="ann" x="278" y="252">matters</text>
+        <line x1="277" y1="272" x2="328" y2="272" stroke="var(--faint)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ahF)"/>
+        <text class="ann" x="8" y="262">event</text>
+        <line x1="8" y1="272" x2="56" y2="272" stroke="var(--faint)" stroke-width="1.4" marker-end="url(#ahF)"/>
+        <path d="M167,330 L167,412" fill="none" stroke="var(--teal)" stroke-width="2.2" marker-end="url(#ahT)"/>
+        <text class="mono" x="188" y="376" fill="var(--teal-ink)" font-size="12.5" font-weight="600" letter-spacing=".04em">REJECT · common case</text>
+        <text class="ann" x="188" y="394">downstream never wakes → pay $ only</text>
+        <text class="ann" x="600" y="238">radio uplink</text>
+        <text class="ann" x="600" y="252">only if it matters</text>
+        <path d="M560,272 C600,272 620,272 650,272" fill="none" stroke="var(--faint)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ahF)"/>
+        <g transform="translate(636,58) scale(13)">
+          <path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"
+                fill="var(--panel)" stroke="var(--line-2)" stroke-width="0.4" stroke-dasharray="1.4 1.1"/>
+        </g>
+        <text class="lbl" x="726" y="250">CLOUD</text>
+        <text class="sub" x="726" y="274">compute · storage · fleet</text>
+        <text class="mono" x="726" y="302"><tspan class="dollars hi">$$$</tspan><tspan class="amt" dx="9">~J / event + recurring $</tspan></text>
+      </svg>
+      </div>
+      <p class="flowcap">For a <b>rejected</b> event, the <b>on-device</b> and <b>cloud</b> tiers never wake &mdash; you pay the <b>$</b> tier and skip the <b>$$</b> and <b>$$$</b>. Cloud cost is recurring, per device, forever. &nbsp;<span style="color:var(--faint)">$ / energy figures are relative magnitudes, illustrating the escalation.</span></p>
+      <div class="erefbox">
+        <span class="big">save &gt; cost</span>
+        <span class="txt">Adding intelligence spends its own silicon and energy, so the design principle is <strong>energy ROI</strong>: the early decision must prevent far more downstream energy than it costs. When a tiny check on the common case skips the whole chain, its value dwarfs "low-energy inference."</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE FABRIC -->
+  <section id="fabric">
+    <div class="wrap">
+      <div class="eyebrow"><span class="bar"></span>What you're buying</div>
+      <h2>A drop-in decision fabric &mdash; always-on, integrated into your silicon.</h2>
+      <div class="split" style="margin-top:26px">
+        <div>
+          <p class="lede">Licensed as an IP core, integrated into your floorplan like any other block. It takes in <span class="sig">any sensor stream</span>, carries a <span class="sig">library of models in flash</span>, and runs them at a fraction of the energy a conventional neural accelerator spends &mdash; because it works a fundamentally different way.</p>
+          <p style="margin-top:16px; color:var(--ink-dim)">It integrates cleanly because its spec sheet asks almost nothing of the chip around it:</p>
+        </div>
+        <div class="stack">
+          <div class="line-item"><span class="mono">01</span><span class="txt"><b>No multiplier arrays.</b> Zero DSP blocks &mdash; the most power- and area-hungry part of a neural engine is simply gone.</span></div>
+          <div class="line-item"><span class="mono">02</span><span class="txt"><b>No external memory.</b> Models stream from cheap serial flash &mdash; no DRAM, no host processor to babysit it.</span></div>
+          <div class="line-item"><span class="mono">03</span><span class="txt"><b>Deterministic &amp; bit-exact.</b> A fixed cycle count per compiled model &mdash; easy to close timing and verify.</span></div>
+          <div class="line-item"><span class="mono">04</span><span class="txt"><b>Tiny &amp; field-updatable.</b> A small logic footprint; new models load from flash after the chip ships.</span></div>
+        </div>
+      </div>
+      <p style="margin-top:26px; color:var(--muted); max-width:74ch">It drops into an SoC, MCU, or sensor without disrupting the design &mdash; and turns that chip into a system that decides at the sensor.</p>
+    </div>
+  </section>
+
+  <!-- WHAT IT DECIDES -->
+  <section id="decides">
+    <div class="wrap">
+      <div class="eyebrow"><span class="bar"></span>One fabric, any sensor</div>
+      <h2>The same early decision, across every kind of signal.</h2>
+      <p class="lede" style="margin-bottom:26px">Sit the fabric right after the sensor &mdash; camera, microphone, IMU, biosignal, vibration probe &mdash; and ask one question: <strong>is there enough evidence to justify waking the rest of the system?</strong> The signal changes; the primitive doesn't.</p>
+      <div class="grid cols-3">
+        <div class="card spot"><div class="k">Vision</div><h3>Person / motion of interest</h3>
+          <p>Reject wind, leaves, shadows, animals; wake only on people or events that matter.</p></div>
+        <div class="card"><div class="k">Audio</div><h3>Wake-word &middot; glass-break &middot; anomaly</h3>
+          <p>Listen continuously for the one sound worth acting on; ignore the rest.</p></div>
+        <div class="card"><div class="k">Health / wearable</div><h3>Activity &middot; fall &middot; arrhythmia</h3>
+          <p>Watch ECG / motion on-body and flag the beat or event that needs attention.</p></div>
+        <div class="card"><div class="k">Industrial</div><h3>Machine anomaly</h3>
+          <p>Monitor vibration or acoustics and raise a flag before failure &mdash; no uplink per reading.</p></div>
+        <div class="card"><div class="k">Environmental</div><h3>Event of interest</h3>
+          <p>Threshold and pattern-detect gas, pressure, or air-quality signals at the source.</p></div>
+        <div class="card"><div class="k">Your model</div><h3>Field-loaded from flash</h3>
+          <p>A licensee compiles their own detector and pushes it to the same silicon &mdash; no re-spin.</p></div>
+      </div>
+      <p style="margin-top:20px; color:var(--ink-dim); max-width:78ch"><span class="sig">Private by construction:</span> the decision happens at the sensor, so raw data need never leave the device.</p>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section id="proof">
+    <div class="wrap">
+      <div class="eyebrow"><span class="bar"></span>Proof &mdash; measured in silicon</div>
+      <h2>Validated on real hardware &mdash; a different inference primitive.</h2>
+      <p class="lede" style="margin-bottom:18px">We prove the architecture on commercial programmable logic &mdash; directly measuring energy, latency, accuracy, and resource use &mdash; <strong>without fabbing a custom chip</strong>. Visual Wake Words is our reference benchmark, reported on real hardware.</p>
+      <div class="results">
+        <div class="rhead"><span>Benchmark decision</span><span>Accuracy</span><span>Energy / decision</span><span>Status</span></div>
+        <div class="rrow"><span class="dec">Visual Wake Words<small>PERSON / NO PERSON</small></span><span class="met tbd">in characterization</span><span class="met tbd">in characterization</span><span class="pill wip">in char.</span></div>
+      </div>
+      <div class="erefbox teal">
+        <span class="big">&lt; 7 &micro;J</span>
+        <span class="txt">per inference, an <strong>upper bound</strong> we've already board-measured &mdash; on a <strong>CIFAR-10 grayscale</strong> model (Nordic PPK2, ~100% duty): isolated compute <strong>&lt; ~7.5 mW</strong> vs a ~0.43 W idle board, below the board noise floor. A <em>different</em> workload than VWW &mdash; shown as the order of magnitude we bring, not a VWW claim.</span>
+      </div>
+      <p class="metrics"><b>Silicon-honest across multiple sensing modalities today</b> &mdash; the same fabric, same bitstream, models swapped from flash. &nbsp;<b>FPGA today &rarr; sensor-integrated IP tomorrow:</b> a licensee evaluates on real hardware now and integrates into their own silicon next. &nbsp;Visual Wake Words accuracy and energy are in active characterization and are not yet claimed as measured figures.</p>
+    </div>
+  </section>
+
+  <!-- COMPOSITION -->
+  <section id="composition">
+    <div class="wrap">
+      <div class="eyebrow"><span class="bar"></span>More than a gate &mdash; a fabric</div>
+      <h2>Real products aren't one model &mdash; they're a chain of decisions.</h2>
+      <div class="split" style="margin-top:26px">
+        <div>
+          <p class="lede">Detect, then identify, then act. One Spot Vision fabric runs the <span class="accent">whole chain</span> &mdash; holding a <span class="sig">library of models</span> in flash that it switches between instantly. Waking another processor is just the simplest thing it can do.</p>
+          <p style="margin-top:16px; color:var(--ink-dim)">One silicon design becomes a family of products, and a shipped chip gets smarter over its life &mdash; new models pushed to flash, no re-spin, no recall.</p>
+        </div>
+        <div class="stack">
+          <div class="line-item"><span class="mono">Gate</span><span class="txt">A cheap always-on model wakes a heavier one only when something happens &mdash; the common case costs almost nothing.</span></div>
+          <div class="line-item"><span class="mono">Cascade</span><span class="txt">Increasingly capable models handle increasingly hard cases &mdash; accuracy where it's needed, battery everywhere else.</span></div>
+          <div class="line-item"><span class="mono">Pipeline</span><span class="txt">Detect &rarr; classify &rarr; verify, all inside the one fabric, with no host to orchestrate it.</span></div>
+        </div>
+      </div>
+      <p style="margin-top:26px; color:var(--muted); max-width:72ch">That's why it's a <strong>fabric</strong>, not just a wake pin &mdash; one licensed block that sells into many end products and keeps earning as models improve.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="eyebrow" style="justify-content:center"><span class="bar"></span>Spot Vision<span class="bar"></span></div>
+      <h2>Decide early. Spend energy only when it matters.</h2>
+      <p class="lede">An early-decision fabric for sensor systems &mdash; any signal, always on, delivered as licensable IP for integration into low-power silicon. If you build always-on sensing products, we'd like to show you the hardware.</p>
+      <div class="btnrow" style="justify-content:center">
+        <a class="btn primary" href="mailto:hello@spotvision.io">hello@spotvision.io</a>
+      </div>
+      <div class="chips">
+        <span class="chip amber">Silicon-proven</span>
+        <span class="chip">Multiplier-free</span>
+        <span class="chip">Flash-resident</span>
+        <span class="chip">Any sensor</span>
+        <span class="chip">Licensable IP</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <span>Spot Vision LLC &middot; &copy; 2026</span>
+    <span><a href="mailto:hello@spotvision.io">hello@spotvision.io</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
