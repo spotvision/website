@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "spotvision-landing",
+    "site": "spotvision-patterns2",
     "public": "public",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
