@@ -320,7 +320,6 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
       <a href="#cost">The cost</a>
       <a href="#solution">The fabric</a>
       <a href="#how">How it works</a>
-      <a href="#showcase">In the field</a>
       <a class="btn ghost sm" href="#contact">Get in touch</a>
     </nav>
   </div>
@@ -538,91 +537,6 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
     </div>
   </section>
 
-  <!-- SHOWCASE: duotone image set -->
-  <section id="showcase">
-    <!-- self-contained duotone filter: grayscale luminance -> forest shadows / cream highlights -->
-    <svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true" focusable="false">
-      <filter id="spot-duotone" color-interpolation-filters="sRGB">
-        <!-- 1. collapse to luminance -->
-        <feColorMatrix type="matrix" values="0.299 0.587 0.114 0 0
-                                              0.299 0.587 0.114 0 0
-                                              0.299 0.587 0.114 0 0
-                                              0     0     0     1 0"/>
-        <!-- 2. gentle contrast lift so the two tones separate cleanly -->
-        <feComponentTransfer>
-          <feFuncR type="gamma" amplitude="1" exponent="0.9" offset="0"/>
-          <feFuncG type="gamma" amplitude="1" exponent="0.9" offset="0"/>
-          <feFuncB type="gamma" amplitude="1" exponent="0.9" offset="0"/>
-        </feComponentTransfer>
-        <!-- 3. map black->forest-deep (#0C4831) and white->cream (#FAF2E3) via per-channel ramps -->
-        <feComponentTransfer>
-          <feFuncR type="table" tableValues="0.047 0.980"/>
-          <feFuncG type="table" tableValues="0.282 0.949"/>
-          <feFuncB type="table" tableValues="0.192 0.890"/>
-        </feComponentTransfer>
-      </filter>
-    </svg>
-    <div class="wrap">
-      <div class="intro">
-        <span class="label">One fabric. Every signal.</span>
-        <h2>Smart, human, and light on the planet — across every category.</h2>
-        <p>The same early-decision primitive sits behind the sensor whatever it's watching for. Here it is across the settings it already serves — occupancy, voice, health, renewable-energy upkeep, a greener home — each running on the fraction of energy an always-on gate should cost.</p>
-      </div>
-      <div class="shots">
-        <figure class="shot">
-          <span class="tag">Silicon-proven fabric</span>
-          <div class="frame"><img src="img/vision.jpg" width="1200" height="900" loading="lazy" decoding="async"
-            alt="People occupying a lit building interior at dusk, seen in silhouette through glass"></div>
-          <figcaption class="body">
-            <div class="cat"><span class="tk"></span>Vision</div>
-            <p>Sees a room is occupied and holds the lights and HVAC — energy-aware space that spends nothing on an empty one.</p>
-          </figcaption>
-        </figure>
-        <figure class="shot">
-          <span class="tag">Silicon-proven fabric</span>
-          <div class="frame"><img src="img/audio.jpg" width="1200" height="900" loading="lazy" decoding="async"
-            alt="Person wearing over-ear headphones walking along a tree-lined city bridge, seen from behind"></div>
-          <figcaption class="body">
-            <div class="cat"><span class="tk"></span>Audio</div>
-            <p>Wakes a home hearable only on the word that matters — always listening, almost never spending.</p>
-          </figcaption>
-        </figure>
-        <figure class="shot">
-          <span class="tag">Silicon-proven fabric</span>
-          <div class="frame"><img src="img/wearable.jpg" width="1200" height="900" loading="lazy" decoding="async"
-            alt="Hand wearing a smartwatch raised outdoors against a lush green mountain valley and river"></div>
-          <figcaption class="body">
-            <div class="cat"><span class="tk"></span>Wearable · health</div>
-            <p>Watches the beat on-body all day and outdoors, on a cell small enough to forget — activity, falls, arrhythmia.</p>
-          </figcaption>
-        </figure>
-        <figure class="shot">
-          <span class="tag">Silicon-proven fabric</span>
-          <div class="frame"><img src="img/industrial.jpg" width="1200" height="900" loading="lazy" decoding="async"
-            alt="Technician in a safety harness carrying a solar panel up a rooftop, seen from behind"></div>
-          <figcaption class="body">
-            <div class="cat"><span class="tk"></span>Industrial</div>
-            <p>Flags a failing part days early on wind and solar assets — a scheduled fix instead of a downed clean-energy site.</p>
-          </figcaption>
-        </figure>
-        <figure class="shot">
-          <span class="tag">Silicon-proven fabric</span>
-          <div class="frame"><img src="img/environmental.jpg" width="1200" height="900" loading="lazy" decoding="async"
-            alt="Bright modern living room with a large potted plant and greenery through floor-to-ceiling windows"></div>
-          <figcaption class="body">
-            <div class="cat"><span class="tk"></span>Environmental</div>
-            <p>Reads air, presence and comfort in a greener smart home — tuning the space, sipping power to do it.</p>
-          </figcaption>
-        </figure>
-        <div class="shot your">
-          <div class="cat"><span class="tk"></span>Your signal</div>
-          <p>Your detector, trained on your data, compiled to the same fabric and loaded from flash. One branded family of always-on products — decisive at the sensor, gentle on the grid.</p>
-        </div>
-      </div>
-      <p class="note">Photography is illustrative and shown in a single Spot Vision duotone; it depicts application settings, not measured deployments.</p>
-    </div>
-  </section>
-
   <!-- CTA / SUMMARY -->
   <section id="contact" class="cta-band">
     <div class="cta-art"><svg class="contour-svg" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -678,7 +592,6 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
       <span>Spot Vision LLC · © 2026</span>
       <span><a href="mailto:info@spotvision.io">info@spotvision.io</a></span>
     </div>
-    <p class="disclaimer" style="margin-top:1.1rem">Image credits: “Technicians working on a solar panel installation” by Stephen Yang / The Solutions Project (<a href="https://commons.wikimedia.org/w/index.php?curid=133642528" rel="noopener" target="_blank">source</a>), licensed <a href="https://creativecommons.org/licenses/by/2.0/" rel="noopener" target="_blank">CC BY 2.0</a>, recolored to a Spot Vision duotone. Remaining showcase photography is CC0 / public-domain.</p>
     <p class="disclaimer">Spot Vision is a licensable early-decision fabric, validated on real hardware across four sensing modalities (digit, ECG, human activity, garment) and delivered as IP for integration into low-power silicon. Measured energy to date is an upper bound on isolated compute (&lt; ~7.5 mW / &lt; ~7 µJ) on a CIFAR-10 grayscale model via Nordic PPK2. Visual Wake Words energy and the downstream resource-ROI model are in characterisation; figures marked ~ or described as targets are not claims. Third-party resource figures are published estimates from the cited sources and are not Spot Vision measurements.</p>
   </div>
 </footer>
