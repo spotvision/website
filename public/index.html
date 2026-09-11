@@ -295,6 +295,19 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
   stroke-linecap:round;stroke-linejoin:round;margin-bottom:.95rem}
 .compose .card .ic{margin-bottom:.7rem}
 
+
+/* ===== duotone fix: robust CSS two-tone (SVG filter:url on <img> fails in Safari/Chrome) ===== */
+.shot .frame{isolation:isolate}
+.shot .frame img{filter:grayscale(1) contrast(1.05) brightness(1.02)!important}
+.shot .frame::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:#0C4831;mix-blend-mode:lighten}
+.shot .frame::after{background:#FAF2E3!important;mix-blend-mode:darken!important;z-index:2;
+  background-image:none!important}
+.shot .frame .warm{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(155deg,color-mix(in srgb,var(--power) 20%,transparent),transparent 44%);
+  mix-blend-mode:soft-light}
+.shot .tag{z-index:5}
+
 </style>
 </head>
 <body>
