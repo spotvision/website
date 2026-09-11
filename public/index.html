@@ -424,14 +424,14 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
         <p>An always-on sensor that streams doesn't only spend its own power. It pulls a chain behind it: radio, network, datacenter compute, cooling, and all the physical hardware that has to exist to serve it. The overwhelming majority of that spend produces one finding — <strong>no change</strong>.</p>
       </div>
       <div class="resgrid">
-        <div class="card res power"><div class="v">~5% → 12%</div><h3>Electricity</h3><p>of U.S. electricity taken by data centers today, with estimates roughly doubling that share by 2030. Every forwarded frame lands on that meter, plus the device power to capture and send it.</p><span class="src">LBNL / industry estimates</span></div>
-        <div class="card res water"><div class="v">1–5M gal/day</div><h3>Water</h3><p>for cooling at a single large facility. U.S. data centers are projected to need 697–1,451 M gallons/day of new capacity through 2030 — comparable to New York City's entire daily supply. Chip fabs draw heavily too.</p><span class="src">arXiv 2603.02705; utility filings</span></div>
+        <div class="card res power"><div class="v">1.5% → 3%</div><h3>Electricity</h3><p>of the world’s electricity goes to data centres today (~415 TWh) — set to roughly double to ~945 TWh, near 3% of global supply, by 2030. Every forwarded frame lands on that meter, plus the device power to capture and send it.</p><span class="src">IEA, Energy and AI (2025)</span></div>
+        <div class="card res water"><div class="v">4.2–6.6B m³</div><h3>Water</h3><p>a year is what global AI is projected to withdraw by 2027 — on the order of half the United Kingdom’s annual freshwater — for data-centre cooling and the electricity behind it. Chip fabs draw heavily too.</p><span class="src">Li et al., arXiv 2304.03271</span></div>
         <div class="card res band"><div class="v">Built for peak</div><h3>Bandwidth</h3><p>Spectrum, backhaul and uplink are provisioned and powered for traffic whose typical payload is an unremarkable frame. Radio time is usually the largest single draw on a connected sensor's battery.</p><span class="src">device power budgets</span></div>
         <div class="card res matter"><div class="v">Servers · fabs</div><h3>Physical hardware</h3><p>Racks, radios, cooling plant and the wafers behind them all have to be manufactured before the first frame arrives — an embodied cost paid up front, then again at refresh.</p><span class="src">embodied-carbon literature</span></div>
-        <div class="card res cell"><div class="v">~78M / day</div><h3>Batteries</h3><p>IoT batteries projected to be discarded daily, under 40% recycled. Devices are built to last 10+ years; their batteries often last two. The cell is frequently the biggest, heaviest, costliest item in the BOM.</p><span class="src">EnABLES position paper (EU)</span></div>
+        <div class="card res cell"><div class="v">~78M / day</div><h3>Batteries</h3><p>IoT batteries are discarded worldwide every day, under 40% recycled. Devices are built to last 10+ years; their batteries often last two. The cell is frequently the biggest, heaviest, costliest item in the BOM.</p><span class="src">EnABLES position paper (EU)</span></div>
       </div>
       <p class="bigstate">The common case is <b>nothing happened</b> — and today it costs very nearly as much as something did.</p>
-      <p class="note">Third-party resource figures above are published estimates from the cited sources — not Spot Vision measurements.</p>
+      <p class="note">Third-party resource figures above are published global estimates from the cited sources — not Spot Vision measurements.</p>
     </div>
   </section>
 
@@ -524,9 +524,9 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
       </div>
       <div class="steps">
         <div class="step"><span class="no">Step 01</span><h3>Evaluate on hardware</h3><p>Run the fabric on a commercial FPGA with our reference models and measure energy and accuracy on your bench, against your data — not from our slides.</p></div>
-        <div class="step"><span class="no">Step 02</span><h3>Compile your model</h3><p>Your detector, trained on your data, compiled to the same fabric. No re-architecture, and no dependence on us to author it.</p></div>
+        <div class="step"><span class="no">Step 02</span><h3>We build your model</h3><p>You bring the use case and the data; we train the detector and compile it onto the fabric. The model engineering is ours — not a toolchain you have to run.</p></div>
         <div class="step"><span class="no">Step 03</span><h3>Integrate the core</h3><p>Drop the block into your silicon. Small footprint, deterministic timing, standard flow, serial flash for the model library.</p></div>
-        <div class="step"><span class="no">Step 04</span><h3>Ship, then improve</h3><p>Push new models to flash in the field. One silicon design becomes a family of products, and a shipped chip gets better over its life — no re-spin.</p></div>
+        <div class="step"><span class="no">Step 04</span><h3>Field-updatable</h3><p>As we develop new or improved detectors for your product, they load to flash after the chip ships — one silicon design becomes a family of products, no re-spin.</p></div>
       </div>
       <div class="compose">
         <div class="card"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5h17l-6.3 7v6.2l-4.4 2.3V12L3.5 5z"/></svg><b>Gate</b><p>A cheap always-on model wakes a heavier one only when something happens — the common case costs almost nothing.</p></div>
@@ -534,6 +534,14 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
         <div class="card"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h12"/><path d="M12.5 8l4 4-4 4"/><circle cx="20" cy="12" r="1.4"/></svg><b>Pipeline</b><p>Detect, classify, verify — all inside the one fabric, with no host processor needed to orchestrate the chain.</p></div>
       </div>
       <p class="dim" style="margin-top:1.8rem;font-size:.95rem">Sit it directly after the sensor and the question is always the same. The signal changes; the primitive doesn't.</p>
+      <div class="chips">
+        <span class="chip">Vision — person / motion of interest</span>
+        <span class="chip">Audio — wake-word, glass-break, anomaly</span>
+        <span class="chip">Wearable — activity, fall, arrhythmia</span>
+        <span class="chip">Industrial — machine anomaly before failure</span>
+        <span class="chip">Environmental — gas, pressure, air quality</span>
+        <span class="chip on">Your use case — built by us, loaded from flash</span>
+      </div>
     </div>
   </section>
 
