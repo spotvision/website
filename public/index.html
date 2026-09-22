@@ -444,7 +444,7 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
         <p>When the answer is "nothing worth waking for," no host wakes, no radio keys up, no packet is sent, no server spins, no water is evaporated to cool it. The energy isn't in the decision — it's in everything after it. So the further left you decide, the less you spend.</p>
       </div>
       <div class="tiers">
-        <div class="tier a"><span class="badge">Spot Vision</span><div class="where">Decide here — in the sensor</div><div class="e">~microjoules</div><div class="mult">1× · baseline</div><p class="desc">An always-on primitive cheap enough to simply leave running. A rejected event stops here and costs essentially nothing.</p></div>
+        <div class="tier a"><span class="badge">Spot Vision</span><div class="where">Decide here — in the sensor</div><div class="e">~microjoules</div><div class="mult">1× · baseline</div><p class="desc">An always-on primitive cheap enough to simply leave running — microjoule-class in sensor-integrated silicon (the ASIC target, proven correct on FPGA today). A rejected event stops here and never pays the tiers below.</p></div>
         <div class="tier b"><div class="where">Decide on a larger NPU, on the host</div><div class="e">~millijoules</div><div class="mult">~1,000× per decision</div><p class="desc">Multiplier arrays, external memory, clock trees and data movement all wake — for every event, including the ones that don't matter.</p></div>
         <div class="tier c"><div class="where">Decide in the cloud</div><div class="e">~joules</div><div class="mult">~1,000,000× · plus recurring cost</div><p class="desc">Capture, compress, key the radio, traverse the network, run inference, cool the rack. Billed per device, per month, for the life of the fleet.</p></div>
       </div>
@@ -463,7 +463,7 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
       <p class="bigstate">Every event you reject skips the expensive path entirely — and in always-on sensing, <b>rejection is the common case</b>, not the exception. That's the entire product.</p>
       <div class="gains">
         <div class="gain"><h3>Battery & bill of materials</h3><ul>
-          <li>An order of magnitude less energy per device, so the same runtime fits a far smaller cell</li>
+          <li>Kept always-on, an order of magnitude less energy than a conventional accelerator on a host — so the same runtime fits a far smaller cell</li>
           <li>Or keep the cell and multiply service life instead — fewer recharges, fewer swaps</li>
           <li>Shrink the biggest, heaviest line in the bill of materials and the whole product shrinks</li>
         </ul></div>
@@ -478,7 +478,7 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
           <li>Private by construction — the decision already happened locally</li>
         </ul></div>
       </div>
-      <p class="note">Energy figures are relative magnitudes for a rejected event and vary with workload, radio and duty cycle. Spot Vision's own measured energy to date is stated below as an upper bound on isolated compute.</p>
+      <p class="note">Energy figures are relative magnitudes for a rejected event and vary with workload, radio and duty cycle — they compare where a decision is made, not one chip against another. Spot Vision's own measured energy to date is stated below as an upper bound on isolated compute.</p>
     </div>
   </section>
 
@@ -492,7 +492,7 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
       </div>
       <div class="howgrid">
         <div class="props">
-          <div class="prop"><span class="no">01</span><div><h3>No multipliers, zero DSP</h3><p>Multiplier-free inference. The arithmetic that dominates NPU power and area simply isn't in the design.</p></div></div>
+          <div class="prop"><span class="no">01</span><div><h3>No multipliers, zero DSP</h3><p>Multiplier-free inference — zero multipliers in the datapath. The arithmetic that dominates NPU power and area simply isn't in the design.</p></div></div>
           <div class="prop"><span class="no">02</span><div><h3>No external memory</h3><p>Models stream from cheap serial flash. No DRAM, no host processor babysitting the block, no memory bus to power up.</p></div></div>
           <div class="prop"><span class="no">03</span><div><h3>Deterministic and bit-exact</h3><p>A fixed cycle count per compiled model. Timing closure and verification are ordinary engineering, not a research project.</p></div></div>
           <div class="prop"><span class="no">04</span><div><h3>Tiny and field-updatable</h3><p>A small logic footprint that fits beside the sensor, with new models loaded from flash long after the chip has shipped.</p></div></div>
@@ -501,14 +501,14 @@ footer{padding:2.6rem 0 3rem;border-top:1px solid var(--rule)}
         <aside class="proofcard">
           <div class="label" style="margin-bottom:1rem;color:var(--band)">Measured in silicon</div>
           <div class="big">&lt; ~7 microjoules</div>
-          <p class="cap">per inference — a board-measured upper bound. Isolated compute &lt; ~7.5 milliwatts on a CIFAR-10 grayscale model (Nordic PPK2, ~100% duty) against a ~0.43 watt idle board, below the board's own noise floor.</p>
+          <p class="cap">of compute switching per inference — measured on silicon, below the board's own noise floor (CIFAR-10 grayscale, Nordic PPK2; isolated compute &lt; ~7.5 milliwatts against a ~0.43 watt idle board). The compute itself is essentially free; on an FPGA the energy that remains is clock and board overhead, so a full FPGA inference is millijoule-class. Microjoule-class inference is the sensor-integrated ASIC target the FPGA exists to prove out.</p>
           <div class="rows">
             <div class="pr"><span>Ten detectors across four sensing modalities — vision, audio, motion and biosignals — compiled to one bitstream, swapped from flash</span><span class="st ok">Silicon-honest</span></div>
             <div class="pr"><span>Energy, latency, accuracy and resource use validated on commercial FPGA — no custom fab run</span><span class="st ok">Measured</span></div>
             <div class="pr"><span>Visual Wake Words (person / no person) — accuracy and energy per decision</span><span class="st tbd">In characterisation</span></div>
             <div class="pr"><span>Downstream energy return-on-investment model across the three decision tiers</span><span class="st tbd">In characterisation</span></div>
           </div>
-          <p class="note" style="margin-top:1.2rem">The measured figure is a different workload than Visual Wake Words — shown as the order of magnitude the fabric brings, not a VWW claim.</p>
+          <p class="note" style="margin-top:1.2rem">A different workload than Visual Wake Words, and an FPGA figure — shown as the order of magnitude the fabric brings, not a VWW or a per-inference deployment-energy claim.</p>
         </aside>
       </div>
     </div>
